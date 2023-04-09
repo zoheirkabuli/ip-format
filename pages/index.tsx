@@ -8,6 +8,7 @@ export default function Home() {
     <>
       <Head>
         <title>Hiddify</title>
+        <meta name="description" content="ساخت آی پی سفارشی برای auto cdn" />
       </Head>
       <ListIp />
     </>
