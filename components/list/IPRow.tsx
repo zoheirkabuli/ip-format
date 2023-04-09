@@ -37,7 +37,7 @@ const IPRow = ({ allIps, setIps, index, operators }: propsType) => {
     <Box sx={{ display: 'flex', gap: '1rem' }}>
       <TextField
         id="outlined-basic"
-        label="آی‌پی"
+        label="آی‌پی یا زیردامنه"
         variant="outlined"
         sx={{ flex: '1 0 0' }}
         type="text"
@@ -49,10 +49,7 @@ const IPRow = ({ allIps, setIps, index, operators }: propsType) => {
         id="combo-box-demo"
         options={operators}
         sx={{
-          width: {
-            xs: 130,
-            sm: 140,
-          },
+          width: 140,
         }}
         value={allIps[index].operator ? allIps[index].operator : 'مخابرات'}
         onChange={operatorHandler}
