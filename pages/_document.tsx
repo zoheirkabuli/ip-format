@@ -12,7 +12,7 @@ import { MyAppProps } from './_app';
 import createEmotionCache from '@/lib/createEmotionCache';
 
 interface MyDocumentProps extends DocumentProps {
-  emotionStyleTags: JSX.Element[];
+  emotionStyleTags: React.ReactNode[];
 }
 
 export default function MyDocument({ emotionStyleTags }: MyDocumentProps) {
