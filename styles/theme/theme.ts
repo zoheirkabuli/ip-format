@@ -12,7 +12,7 @@ const theme = createTheme({
   palette: {
     primary: {
       // light: will be calculated from palette.primary.main,
-      main: '#f63',
+      main: '#4158C7',
       // dark: will be calculated from palette.primary.main,
       contrastText: '#fff',
     },
