@@ -18,7 +18,7 @@ export default function Home({ query }: any) {
 export const getServerSideProps: GetServerSideProps = async (ctx) => {
   return {
     props: {
-      query: ctx.query.ips,
+      query: ctx.query?.ips || null,
     },
   };
 };
