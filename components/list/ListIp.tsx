@@ -20,7 +20,7 @@ const Alert = React.forwardRef<HTMLDivElement, AlertProps>(function Alert(
 import IPRow from './IPRow';
 
 // * en operators
-const enOperators = {
+const enOperators: { [key: string]: string } = {
   MCI: 'همراه‌اول',
   MTN: 'ایرانسل',
   MKH: 'مخابرات',
@@ -37,6 +37,7 @@ const enOperators = {
   PSM: 'پیشگامان',
   ARX: 'آراکس',
   SMT: 'سامانتل',
+  SHM: 'شاتل‌موبایل',
   FNV: 'فن‌آوا',
   DBN: 'دیده‌بان‌نت',
   APT: 'آپتل',
@@ -49,12 +50,16 @@ const getKeyByValue = (object: any, value: String) => {
 
 // * return ircf
 const ircf = () => {
-  let txt = '';
-  for (const [key] of Object.entries(enOperators)) {
-    txt += `${key.toLowerCase()}.ircf.space ${key}\n`;
+  const arr = [];
+
+  for (const [key, value] of Object.entries(enOperators)) {
+    arr.push({
+      ip: `${key.toLowerCase()}.ircf.space`,
+      operator: `${value}`,
+    });
   }
 
-  return txt;
+  return arr;
 };
 
 // * checker
@@ -66,13 +71,28 @@ const checker = (arr: IpsError[]) => {
   return arr.every((item) => item.ip === false && item.operator === false);
 };
 
-// * types
+// * queryToArray
+const queryToArray = (txt: string) => {
+  const arr = [];
+  const txtArr = txt?.split('\n');
+
+  for (const item of txtArr) {
+    arr.push({
+      ip: `${item.split(' ')[0]}`,
+      operator: enOperators[item.split(' ')[1]],
+    });
+  }
+
+  return arr;
+};
+
+// * prop types
 interface propsType {
   ipsQuery: string | undefined;
 }
 
 const ListIp = ({ ipsQuery }: propsType) => {
-  const [ips, setIps] = useState([{ ip: '', operator: '' }]);
+  const [ips, setIps] = useState(ipsQuery ? queryToArray(ipsQuery) : ircf());
   const [text, setText] = useState('');
   const [isOpen, setIsOpen] = useState(false);
 
@@ -94,7 +114,7 @@ const ListIp = ({ ipsQuery }: propsType) => {
 
   // * copy
   const copyHandler = () => {
-    if (text === ircf() || checker(checkError(ips))) {
+    if (checker(checkError(ips))) {
       copyToClipboard(text);
     } else {
       setIsOpen(true);
@@ -119,18 +139,16 @@ const ListIp = ({ ipsQuery }: propsType) => {
     let ipsText = '';
 
     for (const ip of ips) {
-      if (ip.ip !== '' || ip.operator) {
+      if (ip.ip !== '' && ip.operator) {
         ipsText += `${ip.ip} ${
           ip.operator ? getKeyByValue(enOperators, ip.operator) : ''
         } \n`;
       }
     }
-
-    if (ipsText !== '') {
-      setText(ipsText);
-    } else {
-      setText(ipsQuery ? ipsQuery : ircf());
+    if (ipsQuery) {
+      console.log(queryToArray(ipsQuery));
     }
+    setText(ipsText);
   }, [ips, ipsQuery]);
 
   return (
@@ -196,14 +214,10 @@ const ListIp = ({ ipsQuery }: propsType) => {
       <Snackbar open={isOpen} autoHideDuration={3000} onClose={handleClose}>
         <Alert
           onClose={handleClose}
-          severity={
-            text === ircf() || checker(checkError(ips)) ? 'success' : 'error'
-          }
+          severity={checker(checkError(ips)) ? 'success' : 'error'}
           sx={{ width: '100%' }}
         >
-          {text === ircf() || checker(checkError(ips))
-            ? 'کپی شد.'
-            : 'همه فیلدها الزامی است.'}
+          {checker(checkError(ips)) ? 'کپی شد.' : 'همه فیلدها الزامی است.'}
         </Alert>
       </Snackbar>
     </>

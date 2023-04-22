@@ -1,17 +1,24 @@
 import Head from 'next/head';
-import { useRouter } from 'next/router';
+import { GetServerSideProps } from 'next';
 // *
 import ListIp from '@/components/list/ListIp';
 
-export default function Home() {
-  const router = useRouter();
+export default function Home({ query }: any) {
   return (
     <>
       <Head>
         <title>Hiddify</title>
         <meta name="description" content="ساخت آی پی سفارشی برای auto cdn" />
       </Head>
-      <ListIp ipsQuery={router.query['ips'] as string} />
+      <ListIp ipsQuery={query as string} />
     </>
   );
 }
+
+export const getServerSideProps: GetServerSideProps = async (ctx) => {
+  return {
+    props: {
+      query: ctx.query.ips,
+    },
+  };
+};
