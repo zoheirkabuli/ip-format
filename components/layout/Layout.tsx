@@ -1,5 +1,5 @@
 import { ReactNode } from 'react';
-import { Paper } from '@mui/material';
+import { Paper, Box } from '@mui/material';
 
 type Props = {
   children: ReactNode | ReactNode[];
@@ -13,19 +13,23 @@ const Layout = ({ children }: Props) => {
   return (
     <>
       <Header />
-      <Paper
-        elevation={3}
+      <Box
         sx={{
           width: {
             xs: '95%',
-            sm: '50%',
+            sm: '98%',
           },
           justifySelf: 'center',
-          padding: '1rem',
+          display: 'flex',
+          gap: '1rem',
+          flexDirection: {
+            xs: 'column',
+            sm: 'row',
+          },
         }}
       >
         {children}
-      </Paper>
+      </Box>
       <Footer />
     </>
   );

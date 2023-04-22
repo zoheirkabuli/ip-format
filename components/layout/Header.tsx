@@ -10,7 +10,7 @@ const Header = () => {
           href={'/'}
           sx={{ fontWeight: '1000', fontSize: '2rem' }}
         >
-          اینترنت برای همه
+          هیدیفای: برای یه اینترنت آزاد
         </Typography>
       </Toolbar>
     </AppBar>

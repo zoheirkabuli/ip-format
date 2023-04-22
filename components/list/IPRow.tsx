@@ -7,9 +7,13 @@ interface propsType {
   setIps: Dispatch<SetStateAction<{ ip: string; operator: string }[]>>;
   index: number;
   operators: string[];
+  error: {
+    ip: boolean;
+    operator: boolean;
+  };
 }
 
-const IPRow = ({ allIps, setIps, index, operators }: propsType) => {
+const IPRow = ({ allIps, setIps, index, operators, error }: propsType) => {
   // * ip input
   const textHandler = (event: SyntheticEvent<Element, Event>) => {
     const target = event.target as HTMLButtonElement;
@@ -43,17 +47,20 @@ const IPRow = ({ allIps, setIps, index, operators }: propsType) => {
         type="text"
         value={allIps[index].ip}
         onChange={textHandler}
+        error={error.ip}
       />
       <Autocomplete
         disablePortal
         id="combo-box-demo"
         options={operators}
         sx={{
-          width: 140,
+          width: 150,
         }}
-        value={allIps[index].operator ? allIps[index].operator : 'مخابرات'}
+        value={allIps[index].operator ? allIps[index].operator : null}
         onChange={operatorHandler}
-        renderInput={(params) => <TextField {...params} label="اپراتور" />}
+        renderInput={(params) => (
+          <TextField {...params} label="اپراتور" error={error.operator} />
+        )}
       />
       {index !== 0 ? (
         <IconButton aria-label="delete" color="error" onClick={deleteHandler}>
