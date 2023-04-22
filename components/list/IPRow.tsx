@@ -54,7 +54,10 @@ const IPRow = ({ allIps, setIps, index, operators, error }: propsType) => {
         id="combo-box-demo"
         options={operators}
         sx={{
-          width: 150,
+          width: {
+            xs: 135,
+            sm: 150,
+          },
         }}
         value={allIps[index].operator ? allIps[index].operator : null}
         onChange={operatorHandler}
