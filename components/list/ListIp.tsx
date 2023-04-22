@@ -1,6 +1,7 @@
 import { Paper, Button, Snackbar } from '@mui/material';
 import MuiAlert, { AlertProps } from '@mui/material/Alert';
 import React, { useEffect, useState } from 'react';
+
 import { Roboto_Mono } from 'next/font/google';
 import checkError from '@/lib/checkError';
 
@@ -65,7 +66,12 @@ const checker = (arr: IpsError[]) => {
   return arr.every((item) => item.ip === false && item.operator === false);
 };
 
-const ListIp = () => {
+// * types
+interface propsType {
+  ipsQuery: string | undefined;
+}
+
+const ListIp = ({ ipsQuery }: propsType) => {
   const [ips, setIps] = useState([{ ip: '', operator: '' }]);
   const [text, setText] = useState('');
   const [isOpen, setIsOpen] = useState(false);
@@ -123,9 +129,9 @@ const ListIp = () => {
     if (ipsText !== '') {
       setText(ipsText);
     } else {
-      setText(ircf());
+      setText(ipsQuery ? ipsQuery : ircf());
     }
-  }, [ips]);
+  }, [ips, ipsQuery]);
 
   return (
     <>
